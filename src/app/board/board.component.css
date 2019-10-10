@@ -2,4 +2,5 @@ table, th, td {
     border: 1px solid yellowgreen;
     margin: 0px;
     border-collapse: collapse;
+    padding: 5px;
 }

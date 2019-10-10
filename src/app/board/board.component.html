@@ -1,25 +1,18 @@
+<h1>{{stop}}</h1>
 <table>
-    <!-- <tr>
-        <th>CARRIER</th>
-        <th>TIME</th>
-        <th>DESTINATION</th>
-        <th>TRAIN#</th>
-        <th>TRACK#</th>
-        <th>STATUS</th>
-    </tr> -->
     <tr>
-        <th>Departure Time</th>
+        <th>Time</th>
         <th>Route</th>
-        <th>Next Stop</th>
         <th>Headsign</th>
+        <th>Platform</th>
         <th>Status</th>
     </tr>
-    <tr *ngFor="let prediction of predictions" [hidden]="prediction.last_stop">
+    <tr *ngFor="let prediction of predictions" [hidden]="!prediction || prediction.last_stop">
         <td>{{prediction.time}}</td>
         <td [style.color]="'#'+prediction.line_text_color" [style.backgroundColor]="'#'+prediction.line_color">
             {{prediction.line}}</td>
-        <td>{{prediction.destination}}</td>
         <td>{{prediction.headsign}}</td>
+        <td>{{prediction.platform || 'TBD'}}</td>
         <td>{{prediction.status}}</td>
     </tr>
 </table>
