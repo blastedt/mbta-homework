@@ -8,6 +8,7 @@ import { BoardComponent } from './board/board.component';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MbtaApiService } from './mbta-api/mbta-api.service';
+import { EventStreamingService } from './event-streaming/event-streaming.service';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MbtaApiService } from './mbta-api/mbta-api.service';
   ],
   providers: [
     MbtaApiService,
+    EventStreamingService,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-<h1>{{stop}}</h1>
+<h1>{{name}} ({{onlyCommuterRail ? 'Commuter Rail' : 'All Trips'}})</h1>
 <table>
     <tr>
         <th>Time</th>
@@ -6,15 +6,15 @@
         <th>Headsign</th>
         <th>Platform</th>
         <th>Status</th>
+        <th>button</th>
     </tr>
-    <tr *ngFor="let prediction of predictions" [hidden]="!prediction || prediction.last_stop">
+    <tr *ngFor="let prediction of predictions" [hidden]="prediction.last_stop">
         <td>{{prediction.time}}</td>
-        <td [style.color]="'#'+prediction.line_text_color" [style.backgroundColor]="'#'+prediction.line_color">
-            {{prediction.line}}</td>
-        <td>{{prediction.headsign}}</td>
-        <td>{{prediction.platform || 'TBD'}}</td>
+        <td [style.color]="'#'+prediction.route?.attributes.text_color" [style.backgroundColor]="'#'+prediction.route?.attributes.color">
+            {{prediction.route?.attributes.long_name}}</td>
+        <td>{{prediction.trip?.attributes.headsign}}</td>
+        <td>{{prediction.stop?.attributes.platform_code || 'TBD'}}</td>
         <td>{{prediction.status}}</td>
+        <td><button (click)="button(prediction)">button :)</button></td>
     </tr>
 </table>
-
-<button (click)="button()">button</button>

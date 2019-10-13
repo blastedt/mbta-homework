@@ -2,6 +2,9 @@
   <app-date></app-date>
   DEPARTURE BOARD
   <app-time></app-time>
-  <app-board stop="place-north"></app-board>
-  <app-board stop="place-sstat"></app-board>
+  <app-board [stop]="Station.NORTH"></app-board>
+  <app-board [stop]="Station.SOUTH"></app-board>
+
+  <app-board [stop]="Station.NORTH" [onlyCommuterRail]="false"></app-board>
+  <app-board [stop]="Station.SOUTH" [onlyCommuterRail]="false"></app-board>
 </div>
