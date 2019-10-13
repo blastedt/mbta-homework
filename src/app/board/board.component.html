@@ -6,7 +6,6 @@
         <th>Headsign</th>
         <th>Platform</th>
         <th>Status</th>
-        <th>button</th>
     </tr>
     <tr *ngFor="let prediction of predictions" [hidden]="prediction.last_stop">
         <td>{{prediction.time}}</td>
@@ -15,6 +14,5 @@
         <td>{{prediction.trip?.attributes.headsign}}</td>
         <td>{{prediction.stop?.attributes.platform_code || 'TBD'}}</td>
         <td>{{prediction.status}}</td>
-        <td><button (click)="button(prediction)">button :)</button></td>
     </tr>
 </table>

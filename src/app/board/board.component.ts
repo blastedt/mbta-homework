@@ -32,8 +32,4 @@ export class BoardComponent implements OnInit {
       .subscribe(json => this.predictions = json);
     this.mbta.getStopName(this.stop).subscribe(name => this.name = name);
   }
-
-  button(arg: any) {
-    console.log(arg);
-  }
 }
