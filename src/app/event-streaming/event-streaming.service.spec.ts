@@ -3,7 +3,7 @@ import { EventStreamingService } from './event-streaming.service';
 import { expect } from 'chai';
 import { skip } from 'rxjs/operators';
 
-fdescribe('EventStreamingService', () => {
+describe('EventStreamingService', () => {
   let originalEventSource;
   let service: EventStreamingService;
   beforeEach(() => {

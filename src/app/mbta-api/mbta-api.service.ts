@@ -38,20 +38,6 @@ export class MbtaApiService {
     return this.memoizedNames[stop];
   }
 
-  // getPredictionsForStop(stop: Station, onlyCommuterRail: boolean = true): Observable<CompletePrediction[]> {
-  //   return this.http.get<PredictionsResponse>(`${environment.API_BASE}/predictions`, {
-  //     params: {
-  //       'filter[stop]': stop.toString(),
-  //       'sort': 'time',
-  //       'include': 'schedule,route,trip,vehicle,alerts,stop',
-  //       'api_key': environment.API_KEY,
-  //     }
-  //   })
-  //     .pipe(
-  //       map(predictions => this.mapPredictions(predictions, onlyCommuterRail))
-  //     );
-  // }
-
   streamPredictionsForStop(stop: Station, onlyCommuterRail: boolean = true): Observable<CompletePrediction[]> {
     return this.eventStreaming.stream<Resource>(`${environment.API_BASE}/predictions`, {
       params: {
@@ -90,7 +76,7 @@ export class MbtaApiService {
             prediction.attributes.status,
             prediction.attributes.departure_time,
             prediction.attributes.arrival_time,
-            relatedVehicle && relatedVehicle.attributes.current_status
+            relatedVehicle && relatedVehicle.attributes && relatedVehicle.attributes.current_status
           ),
           first_stop: !!(!prediction.attributes.arrival_time && prediction.attributes.departure_time),
           last_stop: !!(prediction.attributes.arrival_time && !prediction.attributes.departure_time),
@@ -104,45 +90,6 @@ export class MbtaApiService {
         prediction => !onlyCommuterRail || this.isCommuterRail(prediction)
       );
   }
-
-  // mapPredictions(predictions: PredictionsResponse, onlyCommuterRail: boolean): CompletePrediction[] {
-  //   return predictions.data
-  //     .map<CompletePrediction>(prediction => {
-  //       const relatedRouteId = prediction.relationships.route.data && prediction.relationships.route.data.id;
-  //       const relatedRoute = predictions.included.find(included => included.id === relatedRouteId);
-
-  //       const relatedTripId = prediction.relationships.trip.data && prediction.relationships.trip.data.id;
-  //       const relatedTrip = predictions.included.find(included => included.id === relatedTripId);
-
-  //       const relatedStopId = prediction.relationships.stop.data && prediction.relationships.stop.data.id;
-  //       const relatedStop: Stop = predictions.included.find(included => included.id === relatedStopId);
-
-  //       const relatedVehicleId = prediction.relationships.vehicle.data && prediction.relationships.vehicle.data.id;
-  //       const relatedVehicle = predictions.included.find(included => included.id === relatedVehicleId);
-
-  //       const time = prediction.attributes.arrival_time || prediction.attributes.departure_time;
-  //       const timeMoment = moment(time);
-
-  //       return {
-  //         time: timeMoment.isValid() ? timeMoment.format('hh:mm A') : 'No Time Given',
-  //         status: this.status(
-  //           prediction.attributes.status,
-  //           prediction.attributes.departure_time,
-  //           prediction.attributes.arrival_time,
-  //           relatedVehicle && relatedVehicle.attributes.current_status
-  //         ),
-  //         first_stop: !!(!prediction.attributes.arrival_time && prediction.attributes.departure_time),
-  //         last_stop: !!(prediction.attributes.arrival_time && !prediction.attributes.departure_time),
-  //         vehicle: relatedVehicle,
-  //         stop: relatedStop,
-  //         trip: relatedTrip,
-  //         route: relatedRoute,
-  //       }
-  //     })
-  //     .filter(
-  //       prediction => !onlyCommuterRail || this.isCommuterRail(prediction)
-  //     );
-  // }
 
   isCommuterRail(prediction: CompletePrediction): boolean {
     return prediction.stop && prediction.stop.attributes && prediction.stop.attributes.vehicle_type == 2;
